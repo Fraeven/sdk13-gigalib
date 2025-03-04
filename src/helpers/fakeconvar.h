@@ -156,7 +156,7 @@ static_assert(sizeof(FakeConCommandBase)    == sizeof(ConCommandBase),  "size mi
 static_assert(sizeof(FakeConVar)            == sizeof(ConVar),          "size mismatch between Fake/ConVar!");
 
 static_assert(sizeof(ConCommandBase)        == 24, "ConCommandBase  size != expected size of 24! Did you change ConVar.h?");
-static_assert(sizeof(ConVar)                == 72, "ConVar          size != expected size of 72! Did you change ConVar.h?");
+static_assert(sizeof(ConVar)                == 92, "ConVar          size != expected size of 92! Did you change ConVar.h?");
 
 static_assert(alignof(FakeConCommandBase)   == alignof(ConCommandBase), "alignof mismatch between Fake/ConCommandBase!");
 static_assert(alignof(FakeConVar)           == alignof(ConVar),         "alignof mismatch between Fake/ConVar!");
