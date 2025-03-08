@@ -542,6 +542,8 @@ LONG CALLBACK VecXceptionHandler(EXCEPTION_POINTERS* info)
     return EXCEPTION_EXECUTE_HANDLER;
 }
 
+extern ConVar _modpath;
+
 void CSentry::SentryInit()
 {
     DevMsg(2, "Sentry init!\n");
@@ -557,11 +559,7 @@ void CSentry::SentryInit()
     vec_handler_handle = AddVectoredExceptionHandler(1 /* first handler */, VecXceptionHandler);
 #endif
 
-    const char* mpath = ConVarRef("_modpath", false).GetString();
-    if (!mpath)
-    {
-        Error("Couldn't get ConVarRef for _modpath!\n");
-    }
+    const char* mpath = _modpath.GetString();
     std::string modpath_ss( mpath );
 #ifdef _WIN32
     // location of the crashpad handler (in moddir/bin)

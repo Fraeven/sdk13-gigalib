@@ -766,11 +766,8 @@ void CClientState__FullConnect_Init()
 }
 #endif
 
-
-
-
-
-
+extern ConVar cl_auto_flush_downloads;
+extern ConVar cl_auto_flush_sprays;
 
 sdkdetour* CNetChan__Shutdown{};
 #define CNetChan__Shutdown_vars        uintptr_t* _this, dummyType dummyVar dummyComma const char* reason
@@ -793,11 +790,11 @@ void mbrcallconv CNetChan__Shutdown_CB(CNetChan__Shutdown_vars)
     // no cvar, sorry
     engine->ClientCmd_Unrestricted("flush_map_overrides\n");
 
-    if (cvar->FindVar("cl_auto_flush_downloads")->GetBool())
+    if (cl_auto_flush_downloads.GetBool())
     {
         engine->ClientCmd_Unrestricted("flush_dls\n");
     }
-    else if (cvar->FindVar("cl_auto_flush_sprays")->GetBool())
+    else if (cl_auto_flush_sprays.GetBool())
     {
         engine->ClientCmd_Unrestricted("flush_sprays\n");
     }

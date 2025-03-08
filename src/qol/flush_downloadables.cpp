@@ -11,15 +11,10 @@ enum FLUSH_CUSTOM_CONTENT
     FLUSH_SPRAYS_VTFS   = 4,
 };
 
+extern ConVar _modpath;
+
 void FlushContent(FLUSH_CUSTOM_CONTENT FLUSH)
 {
-    ConVarRef _modpath = ConVarRef("_modpath");
-    if (!_modpath.IsValid())
-    {
-        Warning("NULL ConVar* _modpath? Report this to a developer! Failing...\n");
-        return;
-    }
-    
     const char* modpath = _modpath.GetString();
     
     V_StripTrailingSlash( (char*)modpath );
@@ -457,11 +452,11 @@ void flushDLS::PostInit()
 	// we want to do this asap... but we need to wait on memy...
 	FlushContent(FLUSH_MAP_OVERRIDES);
 
-	if (cvar->FindVar("cl_auto_flush_downloads")->GetBool())
+	if (cl_auto_flush_downloads.GetBool())
 	{
 		engine->ClientCmd_Unrestricted("flush_dls\n");
 	}
-	else if (cvar->FindVar("cl_auto_flush_sprays")->GetBool())
+	else if (cl_auto_flush_sprays.GetBool())
 	{
 		engine->ClientCmd_Unrestricted("flush_sprays\n");
 	}
