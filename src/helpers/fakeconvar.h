@@ -160,13 +160,13 @@ static_assert(std::is_standard_layout_v<FakeConVar> == false, "FakeConVar   shou
 static_assert(sizeof(FakeConCommandBase) == sizeof(ConCommandBase), "size mismatch between Fake/ConCommandBase!");
 static_assert(sizeof(FakeConVar) == sizeof(ConVar), "size mismatch between Fake/ConVar!");
 
-static_assert(sizeof(ConCommandBase) == 24, "ConCommandBase  size != expected size of 24! Did you change ConVar.h?");
-static_assert(sizeof(ConVar) == 92, "ConVar          size != expected size of 92! Did you change ConVar.h?");
+static_assert(sizeof(ConCommandBase) == 48, "ConCommandBase  size != expected size of 48! Did you change ConVar.h?");
+static_assert(sizeof(ConVar) == 144, "ConVar          size != expected size of 144! Did you change ConVar.h?");
 
 static_assert(alignof(FakeConCommandBase) == alignof(ConCommandBase), "alignof mismatch between Fake/ConCommandBase!");
 static_assert(alignof(FakeConVar) == alignof(ConVar), "alignof mismatch between Fake/ConVar!");
 
-static_assert(alignof(ConCommandBase) == 4, "alignof Fake/ConCommandBase should be 4!");
-static_assert(alignof(ConVar) == 4, "alignof Fake/ConVar should be 4!");
+static_assert(alignof(ConCommandBase) == 8, "alignof Fake/ConCommandBase should be 8!");
+static_assert(alignof(ConVar) == 8, "alignof Fake/ConVar should be 8!");
 
 #endif
