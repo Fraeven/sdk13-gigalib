@@ -92,7 +92,7 @@ void CSentry::PostInit()
 {
     DevMsg(2, "Sentry Postinit!\n");
 
-    g_sdkCURL->CURLGet(VPC_QUOTE_STRINGIFY(SENTRY_URL), CSentry__SentryURLCB__THUNK);
+    // g_sdkCURL->CURLGet(VPC_QUOTE_STRINGIFY(SENTRY_URL), CSentry__SentryURLCB__THUNK); -- disable for x64 for now
 }
 
 
