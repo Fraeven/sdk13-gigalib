@@ -351,7 +351,8 @@ void CBinary::PostInit()
     #ifdef GAME_DLL
         if (engine->IsDedicatedServer())
         {
-            bool didpatches = ApplyAllPatches();
+            // bool didpatches = ApplyAllPatches(); -- Disable for x64
+            bool didpatches = true;
 
             if (!didpatches)
             {
@@ -370,7 +371,8 @@ void CBinary::PostInit()
             #endif
         }
     #else
-        bool didpatches = ApplyAllPatches();
+        // bool didpatches = ApplyAllPatches(); -- Disable for x64
+        bool didpatches = true;
 
         if (!didpatches)
         {

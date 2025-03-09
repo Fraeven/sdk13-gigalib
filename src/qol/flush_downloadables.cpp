@@ -449,6 +449,8 @@ bool flushDLS::Init()
 
 void flushDLS::PostInit()
 {
+	// Disable for 64 bit for now
+	/*
 	// we want to do this asap... but we need to wait on memy...
 	FlushContent(FLUSH_MAP_OVERRIDES);
 
@@ -460,6 +462,7 @@ void flushDLS::PostInit()
 	{
 		engine->ClientCmd_Unrestricted("flush_sprays\n");
 	}
+	*/
 }
 // </sappho>
 #endif
