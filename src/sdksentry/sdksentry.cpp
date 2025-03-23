@@ -92,7 +92,7 @@ void CSentry::PostInit()
 {
     DevMsg(2, "Sentry Postinit!\n");
 
-    // g_sdkCURL->CURLGet(VPC_QUOTE_STRINGIFY(SENTRY_URL), CSentry__SentryURLCB__THUNK); -- disable for x64 for now
+    g_sdkCURL->CURLGet(VPC_QUOTE_STRINGIFY(SENTRY_URL), CSentry__SentryURLCB__THUNK);
 }
 
 
@@ -135,7 +135,7 @@ FORCEINLINE void DoDyingStuff()
         return;
     }
 
-    // guaruntee that there's a nul at the end
+    // guarantee that there's a nul at the end
     spew[spewSize - 1] = 0x0;
 
     // iterate starting from the end of the array
@@ -423,8 +423,15 @@ void InternalError_Init()
 
     InternalError = new sdkdetour{};
 
-    // Unique string: "NetChannel removed.", which calls Shutdown immediately after
-    #ifdef _WIN32
+    // Unique string: "Engine error"
+
+    #if defined ( _WIN64 )
+        // Signature for sub_180208410:
+        // 40 53 48 81 EC 20 04 00 00 0F B6 D9 
+        // \x40\x53\x48\x81\xEC\x20\x04\x00\x00\x0F\xB6\xD9
+        InternalError->patternSize = 12;
+        InternalError->pattern     = "\x40\x53\x48\x81\xEC\x20\x04\x00\x00\x0F\xB6\xD9";
+    #elif defined ( _WIN32 )
         // Signature for sub_7920CAA0:
         // 55 8B EC 6A FF 68 ? ? ? ? 68 ? ? ? ? 
         InternalError->patternSize = 15;
@@ -561,7 +568,12 @@ void CSentry::SentryInit()
 
     const char* mpath = _modpath.GetString();
     std::string modpath_ss( mpath );
-#ifdef _WIN32
+
+#ifdef _WIN64
+    // location of the crashpad handler (in moddir/bin)
+    std::stringstream crash_exe;
+    crash_exe << modpath_ss << CORRECT_PATH_SEPARATOR << "bin" << CORRECT_PATH_SEPARATOR << "x64" << CORRECT_PATH_SEPARATOR << "crashpad_handler.exe";
+#elif defined (_WIN32)
     // location of the crashpad handler (in moddir/bin)
     std::stringstream crash_exe;
     crash_exe << modpath_ss << CORRECT_PATH_SEPARATOR << "bin" << CORRECT_PATH_SEPARATOR << "crashpad_handler.exe";
@@ -663,7 +675,7 @@ void CSentry::SentryInit()
     DevMsg(2, "Sentry initialization success!\n");
 
 #ifdef _WIN32
-    mainWindowHandle = (sig_atomic_t)FindWindow("Valve001", NULL);
+    mainWindowHandle = (uintptr_t)FindWindow("Valve001", NULL);
 #endif
     InternalError_Init();
 

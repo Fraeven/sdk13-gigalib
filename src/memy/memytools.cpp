@@ -97,11 +97,12 @@ bool memy::InitAllBins()
     char* clipath = client_bin->binpath;
     V_StripFilename(clipath);
     V_StripLastDir(clipath, MAX_PATH);
-    V_StripTrailingSlash(clipath);
 
 #ifdef _WIN64
-    V_snprintf(clipath, sizeof(clipath), "%s/x64", clipath);
+    V_StripLastDir(clipath, MAX_PATH);
 #endif
+
+    V_StripTrailingSlash(clipath);
 
     _modpath.SetValue(clipath);
 #endif
@@ -109,11 +110,12 @@ bool memy::InitAllBins()
     char* engpath = engine_bin->binpath;
     V_StripFilename(engpath);
     V_StripLastDir(engpath, MAX_PATH);
-    V_StripTrailingSlash(engpath);
 
 #ifdef _WIN64
-    V_snprintf(engpath, sizeof(engpath), "%s/x64", engpath);
+    V_StripLastDir(engpath, MAX_PATH);
 #endif
+
+    V_StripTrailingSlash(engpath);
 
     _sdkpath.SetValue(engpath);
 

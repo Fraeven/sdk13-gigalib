@@ -6,7 +6,7 @@
 #include <atomic>
 #include <csignal>
 
-volatile sig_atomic_t GetSpewPtr = NULL;
+volatile uintptr_t GetSpewPtr = NULL;
 bool initEngineSpew()
 {
 	    /*                              v-- unique string -------------v
@@ -19,7 +19,13 @@ bool initEngineSpew()
         }
         return result;
     */
-#ifdef _WIN32
+#if defined ( _WIN64 )
+	// Signature for sub_1802077C0:
+	// 4C 8B DC 49 89 5B 08 49 89 6B 10 49 89 73 18 57 41 56 41 57 48 83 EC 70 
+	// \x4C\x8B\xDC\x49\x89\x5B\x08\x49\x89\x6B\x10\x49\x89\x73\x18\x57\x41\x56\x41\x57\x48\x83\xEC\x70
+    static constexpr const char*    pattern     = "\x4C\x8B\xDC\x49\x89\x5B\x08\x49\x89\x6B\x10\x49\x89\x73\x18\x57\x41\x56\x41\x57\x48\x83\xEC\x70";
+    static constexpr size_t         patternSize = 24;
+#elif defined ( _WIN32 )
     //Signature for GetSpew_sub_101FC3A0:
     //55 8B EC 53 FF 15 ?  ?  ?  ?  8B D0 BB  ?  ?  ?  ? 3B 15 ? ? ? ?     74 ? 8B CA 33 C0 F0 0F B1 0B 85 C0 74 ? F3 90 6A 00 52 8B CB FF 15 ? ? ? ? EB ? FF 05 ? ? ? ? 0F B7 05 ? ? ? ?
     static constexpr const char*    pattern     = "\x55\x8B\xEC\x53\xFF\x15\x2A\x2A\x2A\x2A\x8B\xD0\xBB\x2A\x2A\x2A\x2A\x3B\x15\x2A\x2A\x2A\x2A\x74\x2A\x8B\xCA\x33\xC0\xF0\x0F\xB1\x0B\x85\xC0\x74\x2A\xF3\x90\x6A\x00\x52\x8B\xCB\xFF\x15\x2A\x2A\x2A\x2A\xEB\x2A\xFF\x05\x2A\x2A\x2A\x2A\x0F\xB7\x05\x2A\x2A\x2A\x2A";
