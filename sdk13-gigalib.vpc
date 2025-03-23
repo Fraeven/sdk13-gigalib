@@ -272,6 +272,14 @@ $Project
         $ImpLib             "$gigalibloc\..\bin\fmt"                        [$WIN32]
         $ImpLib             "$gigalibloc\..\bin\x64\sentry"                 [$WIN64]
         $ImpLib             "$gigalibloc\..\bin\x64\fmt"                    [$WIN64]
+		{
+			$Configuration "Debug" 	{ $ExcludedFromBuild "Yes" }
+		}
+
+        $ImpLib             "$gigalibloc\..\bin\x64\fmtd"                    [$WIN64]
+		{
+			$Configuration "Release" 	{ $ExcludedFromBuild "Yes" }
+		}
 
         // sentry
         $Lib                "$gigalibloc\..\bin\libbreakpad_client"         [$LINUX]
